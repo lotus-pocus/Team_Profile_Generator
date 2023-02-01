@@ -22,7 +22,9 @@ const pageTemplate = require("./src/page-template.js");
 // Scarlett.printManagerName();
 // Raya.printInternName();
 
-const createManager = () => {
+
+
+function createManager() {
     return inquirer.prompt([
         {
             type: 'input',
@@ -76,14 +78,122 @@ const createManager = () => {
                 }
             }
         }
-    ])
+    ]).then(data => {
+        console.log(data);
+    })
 };
 
-createManager()
-.then(answers => {
-    return pageTemplate(answers);
-})
+function createRole() {
+    return inquirer.prompt([
+        {
+            type: 'list',
+            name: 'job',
+            message: 'What is your position?',
+            choices: [
+                {
+                    name: 'Create Engineeer',
+                    value: 'Engineer'
+                },
+                {
+                    name: 'Create Intern',
+                    value: 'Intern' 
+                },
+                {
+                    name: 'Exit Team Profile Generator',
+                    value: 'Exit'
+                }
+            ]
+        }
+    ]).then(choice => {
+        if (choice.option === 'Engineer') {
+            return createEngineer();
+        } else if (choice.option === 'intern') {
+            return createIntern();
+        } else {
+            console.log('Thanks for using this app');
+            process.exit();
+        }
+    });
+}
 
-.catch(err => {
-    console.log(err)
-})
+function init() {
+    console.log('-----Welcome to the TEAM PROFILE GENERATOR APP-----');
+
+    createManager().then(createRole);
+}
+
+init();
+
+// .then
+
+// .catch(err => {
+//     console.log(err)
+// });
+
+
+// const createEmployee = () => {
+//     return inquirer.prompt([
+//         {
+//             type: 'input',
+//             name: 'Employees Name',
+//             message: 'Please enter your name here: ',
+//             validate: nameInput => {
+//                 if (nameInput) {
+//                     return true;
+//                 } else {
+//                     console.log('Employees name must be entered first.');
+//                     return false;
+//                 }
+//             }
+//         },
+//         {
+//             type: 'list',
+//             name: 'job',
+//             message: 'What is your position?',
+//             choices: ['Engineer', 'Intern'],
+//             validate: nameInput => {
+//                 if (nameInput) {
+//                     return true;
+//                 } else {
+//                     console.log('Please choose your position');
+//                     return false;
+//                 }
+//             }
+//         },
+//         {
+//             type: 'input',
+//             name: 'id',
+//             message: 'Please enter your id number here: ',
+//             validate: nameInput => {
+//                 if (nameInput) {
+//                     return true;
+//                 } else {
+//                     console.log('Your id must be entered here.');
+//                     return false;
+//                 }
+//             }
+//         },
+//         {
+//             type: 'input',
+//             name: 'email',
+//             message: 'Please enter your email address here: ',
+//             validate: nameInput => {
+//                 if (nameInput) {
+//                     return true;
+//                 } else {
+//                     console.log('Your email address must be entered here.');
+//                     return false;
+//                 }
+//             }
+//         }
+//     ])
+// };
+
+// createEmployee()
+// .then(answers => {
+//     return pageTemplate(answers);
+// })
+
+// .catch(err => {
+//     console.log(err)
+// });
